@@ -1,0 +1,7 @@
+run,checkpoint,next_state,position_probe,action_probe,planning,geometry_pca,geometry_tsne,all_downstream
+v12_idm_frac_0_s0,True,True,True,True,False,False,False,False
+v12_idm_frac_100_s0,True,True,True,True,False,False,False,False
+v12_idm_frac_25_s0,True,True,True,True,False,False,False,False
+v12_idm_frac_50_s0,True,True,True,True,False,False,False,False
+v12_idm_frac_5_s0,True,True,True,True,False,False,False,False
+v12_idm_frac_75_s0,True,True,False,False,False,False,False,False

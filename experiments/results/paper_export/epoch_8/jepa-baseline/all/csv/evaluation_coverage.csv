@@ -1,0 +1,6 @@
+run,checkpoint_run,checkpoint_epoch,latent_geometry,planning_seed_count,planning_seeds,planning_complete_5_seeds,next_state,position_probe,action_probe
+v3_baseline_100_s0,v3_baseline_100_s0,8,False,5,"41,42,43,44,45",True,True,True,True
+v10_base_frac_5_s0,v10_base_frac_5_s0,8,True,5,"41,42,43,44,45",True,True,True,True
+v10_base_frac_25_s0,v10_base_frac_25_s0,8,True,5,"41,42,43,44,45",True,True,True,True
+v10_base_frac_50_s0,v10_base_frac_50_s0,8,True,5,"41,42,43,44,45",True,True,True,True
+v10_base_frac_75_s0,v10_base_frac_75_s0,8,False,5,"41,42,43,44,45",True,True,True,True

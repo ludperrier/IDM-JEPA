@@ -1,0 +1,2 @@
+run,arm,seed,label_frac,cycle_ratio,epoch,num_train_samples,num_test_samples,block_orientation_ridge_r2,block_orientation_mlp_r2,agent_displacement_ridge_r2,agent_displacement_mlp_r2,block_displacement_ridge_r2,block_displacement_mlp_r2
+v10_cyc_ramp_frac_50_s0,cyc_ramp_frac_50,0,0.5,1.0,8,475612,118904,0.8360334739801899,0.9721001944948607,0.3909243840673552,0.7081893128737429,0.5720518956541247,0.8242371433167783

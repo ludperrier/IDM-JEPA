@@ -1,0 +1,113 @@
+defaults:
+ - _self_
+ - launcher: local
+ - data: pusht
+ - model: lewm
+ - override /hydra/launcher: basic
+
+output_model_name: lewm
+subdir: ${hydra:job.id}
+# arm name without the seed suffix, so W&B groups the seeds of one arm together
+run_group: ${output_model_name}
+
+resume_policy: auto
+num_workers: 6
+train_split: 0.9
+seed: 3072
+img_size: 224
+embed_dim: 192
+history_size: 3
+label_frac: 1.0
+label_seed: ${seed}
+# grouped preserves the existing five-raw-action block mask. episode selects a
+# deterministic subset of complete episodes and labels every action within each.
+action_label_mode: grouped
+episode_frac: 1.0
+episode_seed: ${seed}
+non_overlapping_actions: false
+# identifier columns for the label mask; some PushT exports use ep_idx
+episode_key: episode_idx
+step_key: step_idx
+eval_epoch: 8 # set appropriate value
+eval_output_dir: null # set appropriate value
+probe_num_batches: null
+probe_train_fraction: 0.8
+probe_alpha: 1.0
+probe_seed: 0
+geometry_num_samples: 50000
+geometry_quantity: block_orientation
+geometry_tsne_num_samples: 5000
+geometry_tsne_seed: ${seed}
+
+
+
+
+conditioning: action
+code_dim: 3
+
+
+
+
+trainer:
+ max_epochs: 10
+ devices: auto
+ accelerator: gpu
+ precision: bf16
+ gradient_clip_val: 1.0
+
+
+loader:
+ batch_size: 128
+ num_workers: ${num_workers}
+ persistent_workers: True
+ prefetch_factor: 3
+ pin_memory: True
+
+
+optimizer:
+ type: AdamW
+ lr: 5e-5
+ weight_decay: 1e-3
+
+
+num_preds: 1
+
+
+loss:
+ sigreg:
+   weight: 0.09
+   kwargs:
+     knots: 17
+     num_proj: 1024
+ action_teacher:
+    weight: 0.1
+ cycle:                  # new
+    # w_cyc = ratio * action_teacher.weight. 1.0 = the same IDM inversion loss
+    # applied to imagined pairs at equal strength; 0.0 = off, so this file is
+    # still the no-cycle baseline. set to 1.0 and leave it there.
+    ratio: 0.0           # new
+    # Cycle scaling starts after this many epochs. With ramp_epochs=0 it is an
+    # abrupt switch; otherwise it rises linearly to full strength over the
+    # following ramp_epochs (e.g. warmup=3, ramp=2: epochs 3/4/5 = 0/.5/1).
+    warmup_epochs: 3
+    ramp_epochs: 0
+    space: action        # new  ablation arm, not a number to sweep; only "action" exists
+
+
+wandb:
+ enabled: true
+ config:
+   project: latent-jepa-experiment
+   name: ${output_model_name}
+   group: ${run_group}
+   entity: amlrt
+   id: ${subdir}
+   resume: allow
+   log_model: false
+
+
+
+
+
+
+

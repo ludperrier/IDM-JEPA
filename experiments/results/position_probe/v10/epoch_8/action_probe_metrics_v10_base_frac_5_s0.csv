@@ -1,0 +1,2 @@
+run,arm,seed,label_frac,cycle_ratio,epoch,num_train_samples,num_test_samples,action_dim,z_t_to_action_ridge_r2,z_t_to_action_mlp_r2,delta_to_action_ridge_r2,delta_to_action_mlp_r2
+v10_base_frac_5_s0,base_frac_5,0,1.0,0.0,8,475612,118904,10,0.09618050542070802,0.2552443865991617,0.12116457617285406,0.42988286632142125

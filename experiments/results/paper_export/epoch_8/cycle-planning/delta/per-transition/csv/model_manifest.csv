@@ -1,0 +1,7 @@
+run,checkpoint_run,checkpoint_epoch,sweep_tag,arm,train_seed,label_fraction_pct,model_label,supervision,export_category,export_subset
+v3_cyc_ramp_frac_0_s0,v3_cyc_ramp_frac_0_s0,8,v3,cyc_ramp_frac_0,0,0,Cycle-JEPA,per-transition,cycle-planning,delta/per-transition
+v10_cyc_ramp_frac_5_s0,v10_cyc_ramp_frac_5_s0,8,v10,cyc_ramp_frac_5,0,5,Cycle-JEPA,per-transition,cycle-planning,delta/per-transition
+v10_cyc_ramp_frac_25_s0,v10_cyc_ramp_frac_25_s0,8,v10,cyc_ramp_frac_25,0,25,Cycle-JEPA,per-transition,cycle-planning,delta/per-transition
+v10_cyc_ramp_frac_50_s0,v10_cyc_ramp_frac_50_s0,8,v10,cyc_ramp_frac_50,0,50,Cycle-JEPA,per-transition,cycle-planning,delta/per-transition
+v10_cyc_ramp_frac_75_s0,v10_cyc_ramp_frac_75_s0,8,v10,cyc_ramp_frac_75,0,75,Cycle-JEPA,per-transition,cycle-planning,delta/per-transition
+v3_cyc_ramp_frac_100_s0,v3_cyc_ramp_frac_100_s0,7,v3,cyc_ramp_frac_100,0,100,Cycle-JEPA,per-transition,cycle-planning,delta/per-transition

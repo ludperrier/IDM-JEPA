@@ -1,0 +1,6 @@
+analyze_eval_results.py
+logs/
+__pycache__/
+*.pyc
+*.err
+*.out

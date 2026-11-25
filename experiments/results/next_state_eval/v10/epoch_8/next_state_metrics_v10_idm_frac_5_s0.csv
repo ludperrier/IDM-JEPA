@@ -1,0 +1,2 @@
+run,arm,seed,label_frac,cycle_ratio,epoch,mse,persistence_mse,zero_mse,action_shuffled_mse,state_shuffled_mse,idm_oracle_code_mse,idm_shuffled_next_state_code_mse,persistence_improvement
+v10_idm_frac_5_s0,idm_frac_5,0,0.05,0.0,8,0.058741483514746055,0.20334994403003678,1.0039385639858989,0.2789817532541757,2.0062441659626518,0.006295264794814226,0.46286282198021883,0.7111310563917865

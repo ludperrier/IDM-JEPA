@@ -1,0 +1,7 @@
+run,sweep_tag,arm,family,label_frac_pct,seed,epoch,repeats,planning_accuracy_pct,planning_accuracy_std_pct,episodes_per_repeat,planning_accuracy_sem_pct
+v10_cyc_ramp_frac_25_s0,v10,cyc_ramp_frac_25,cycle_ramp,25,0,8,5,39.2,9.85900603509299,50.0,4.409081537009721
+v10_cyc_ramp_frac_50_s0,v10,cyc_ramp_frac_50,cycle_ramp,50,0,8,5,74.8,4.81663783151692,50.0,2.1540659228538024
+v10_cyc_ramp_frac_5_s0,v10,cyc_ramp_frac_5,cycle_ramp,5,0,8,5,24.8,6.260990336999411,50.0,2.8
+v10_cyc_ramp_frac_75_s0,v10,cyc_ramp_frac_75,cycle_ramp,75,0,8,5,70.4,9.939818911831342,50.0,4.445222154178573
+v3_cyc_ramp_frac_0_s0,v3,cyc_ramp_frac_0,cycle_ramp,0,0,8,5,2.8,2.280350850198276,50.0,1.019803902718557
+v3_cyc_ramp_frac_100_s0,v3,cyc_ramp_frac_100,cycle_ramp,100,0,7,5,73.2,4.147288270665544,50.0,1.8547236990991405

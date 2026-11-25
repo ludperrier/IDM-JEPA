@@ -1,0 +1,2 @@
+run,arm,seed,label_frac,cycle_ratio,epoch,mse,persistence_mse,zero_mse,action_shuffled_mse,state_shuffled_mse,persistence_improvement
+v3_baseline_100_s0,baseline_100,0,1.0,0.0,8,0.007845573926505247,0.18406413692790424,1.0062361613668624,0.2843309587940457,1.9821896956432663,0.957375868773512

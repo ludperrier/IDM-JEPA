@@ -1,0 +1,5 @@
+run,sweep_tag,arm,family,label_frac_pct,seed,epoch,repeats,planning_accuracy_pct,planning_accuracy_std_pct,episodes_per_repeat,planning_accuracy_sem_pct
+v13_idm_frac_25_s0,v13,idm_frac_25,idm,25,0,8,5,80.4,3.2863353450309956,50.0,1.4696938456699062
+v13_idm_frac_50_s0,v13,idm_frac_50,idm,50,0,8,5,87.2,2.280350850198275,50.0,1.0198039027185566
+v13_idm_frac_5_s0,v13,idm_frac_5,idm,5,0,8,5,44.8,9.85900603509299,50.0,4.409081537009721
+v13_idm_frac_75_s0,v13,idm_frac_75,idm,75,0,8,5,90.4,2.6076809620810595,50.0,1.16619037896906

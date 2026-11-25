@@ -1,0 +1,7 @@
+run,checkpoint_run,checkpoint_epoch,latent_geometry,planning_seed_count,planning_seeds,planning_complete_5_seeds,next_state,position_probe,action_probe
+v10_idm_frac_0_s0,v10_idm_frac_0_s0,8,True,5,"41,42,43,44,45",True,True,True,True
+v10_idm_frac_100_s0,v10_idm_frac_100_s0,8,False,5,"41,42,43,44,45",True,True,True,True
+v11_idm_frac_5_s0,v11_idm_frac_5_s0,8,False,5,"41,42,43,44,45",True,True,True,True
+v11_idm_frac_25_s0,v11_idm_frac_25_s0,8,False,5,"41,42,43,44,45",True,True,True,True
+v11_idm_frac_50_s0,v11_idm_frac_50_s0,8,False,5,"41,42,43,44,45",True,True,True,True
+v11_idm_frac_75_s0,v11_idm_frac_75_retry_s0_retry_20260817_151047,8,False,5,"41,42,43,44,45",True,True,True,True

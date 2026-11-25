@@ -1,0 +1,17 @@
+run,epoch,successes,episodes,accuracy
+v10_base_frac_50_s0,1,1,50,2.0
+v10_base_frac_50_s0,2,0,50,0.0
+v10_base_frac_50_s0,3,10,50,20.0
+v10_base_frac_50_s0,4,20,50,40.0
+v10_base_frac_50_s0,5,24,50,48.0
+v10_base_frac_50_s0,6,22,50,44.0
+v10_base_frac_50_s0,7,32,50,64.0
+v10_base_frac_50_s0,8,30,50,60.0
+v13_idm_frac_50_s0,1,7,50,14.0
+v13_idm_frac_50_s0,2,36,50,72.0
+v13_idm_frac_50_s0,3,32,50,64.0
+v13_idm_frac_50_s0,4,44,50,88.0
+v13_idm_frac_50_s0,5,39,50,78.0
+v13_idm_frac_50_s0,6,46,50,92.0
+v13_idm_frac_50_s0,7,45,50,90.0
+v13_idm_frac_50_s0,8,44,50,88.0

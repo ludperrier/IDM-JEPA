@@ -1,0 +1,21 @@
+#!/bin/bash
+#SBATCH --job-name=la_jepa_frac50_plot
+#SBATCH --partition=long-cpu
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=2
+#SBATCH --mem=4G
+#SBATCH --time=00:10:00
+#SBATCH --output=analysis_out/slurm_logs/%x_%j.out
+#SBATCH --error=analysis_out/slurm_logs/%x_%j.err
+
+set -euo pipefail
+
+module load python/3.10
+
+REPO_DIR="$HOME/CODE/latent-jepa"
+EXPERIMENTS_DIR="$HOME/CODE/latent-jepa-experiments"
+cd "$REPO_DIR"
+source .venv/bin/activate
+cd "$EXPERIMENTS_DIR"
+
+python plot_v13_frac50_vs_baseline_epoch_curve.py

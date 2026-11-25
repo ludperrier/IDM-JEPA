@@ -1,0 +1,7 @@
+run,checkpoint_run,checkpoint_epoch,latent_geometry,planning_seed_count,planning_seeds,planning_complete_5_seeds,next_state,position_probe,action_probe
+v3_cyc_ramp_frac_0_s0,v3_cyc_ramp_frac_0_s0,8,False,5,"41,42,43,44,45",True,True,True,True
+v3_cyc_ramp_frac_100_s0,v3_cyc_ramp_frac_100_s0,7,False,5,"41,42,43,44,45",True,True,True,True
+v11_cyc_ramp_frac_5_s0,v11_cyc_ramp_frac_5_s0,8,False,5,"41,42,43,44,45",True,True,True,True
+v11_cyc_ramp_frac_25_s0,v11_cyc_ramp_frac_25_s0,8,False,5,"41,42,43,44,45",True,True,True,True
+v11_cyc_ramp_frac_50_s0,v11_cyc_ramp_frac_50_s0,8,False,5,"41,42,43,44,45",True,True,True,True
+v11_cyc_ramp_frac_75_s0,v11_cyc_ramp_frac_75_s0,8,False,5,"41,42,43,44,45",True,True,True,True

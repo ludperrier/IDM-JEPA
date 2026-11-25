@@ -1,0 +1,6 @@
+run,checkpoint_run,checkpoint_epoch,sweep_tag,arm,train_seed,label_fraction_pct,model_label,supervision,export_category,export_subset
+v10_base_frac_5_s0,v10_base_frac_5_s0,8,v10,base_frac_5,0,5,JEPA baseline,reference,jepa-baseline,all
+v10_base_frac_25_s0,v10_base_frac_25_s0,8,v10,base_frac_25,0,25,JEPA baseline,reference,jepa-baseline,all
+v10_base_frac_50_s0,v10_base_frac_50_s0,8,v10,base_frac_50,0,50,JEPA baseline,reference,jepa-baseline,all
+v10_base_frac_75_s0,v10_base_frac_75_s0,8,v10,base_frac_75,0,75,JEPA baseline,reference,jepa-baseline,all
+v3_baseline_100_s0,v3_baseline_100_s0,8,v3,baseline_100,0,100,JEPA baseline,reference,jepa-baseline,all

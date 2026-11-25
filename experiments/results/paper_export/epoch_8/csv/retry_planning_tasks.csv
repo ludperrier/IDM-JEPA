@@ -1,0 +1,3 @@
+run,checkpoint_run,checkpoint_epoch,tag,arm,train_seed,label_fraction_pct,family,supervision,category,subset,planning_seed
+v12_idm_frac_0_s0,v12_idm_frac_0_s0,8,v12,idm_frac_0,0,0,IDM-JEPA concat,per-transition,idm-planning,concat/per-transition,41
+v3_cyc_ramp_frac_100_s0,v3_cyc_ramp_frac_100_s0,7,v3,cyc_ramp_frac_100,0,100,Cycle-JEPA,per-transition,cycle-planning,delta/per-transition,44

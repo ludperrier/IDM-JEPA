@@ -1,0 +1,30 @@
+# @package _global_
+
+trainer:
+ max_epochs: 2
+ limit_train_batches: 2
+ limit_val_batches: 1
+ devices: 1
+ accelerator: auto   # runs on a CPU login node, no GPU allocation needed
+ precision: 32       # bf16 is not supported on most CPUs
+
+
+loader:
+ batch_size: 4
+ num_workers: 1
+ persistent_workers: false
+ prefetch_factor: 2
+ pin_memory: false
+
+
+loss:
+ cycle:
+   warmup_epochs: 0
+
+
+wandb:
+ enabled: false
+
+
+
+

@@ -1,0 +1,9 @@
+run,checkpoint_run,checkpoint_epoch,tag,arm,train_seed,label_fraction_pct,family,supervision,category,subset,planning_seed
+v11_idm_frac_75_s0,v11_idm_frac_75_retry_s0_retry_20260817_151047,8,v11,idm_frac_75,0,75,IDM-JEPA delta,per-episode,idm-planning,delta/per-episode,43
+v11_idm_frac_75_s0,v11_idm_frac_75_retry_s0_retry_20260817_151047,8,v11,idm_frac_75,0,75,IDM-JEPA delta,per-episode,idm-planning,delta/per-episode,45
+v12_idm_frac_0_s0,v12_idm_frac_0_s0,8,v12,idm_frac_0,0,0,IDM-JEPA concat,per-transition,idm-planning,concat/per-transition,41
+v12_idm_frac_0_s0,v12_idm_frac_0_s0,8,v12,idm_frac_0,0,0,IDM-JEPA concat,per-transition,idm-planning,concat/per-transition,42
+v3_cyc_ramp_frac_100_s0,v3_cyc_ramp_frac_100_s0,7,v3,cyc_ramp_frac_100,0,100,Cycle-JEPA,per-transition,cycle-planning,delta/per-transition,42
+v3_cyc_ramp_frac_100_s0,v3_cyc_ramp_frac_100_s0,7,v3,cyc_ramp_frac_100,0,100,Cycle-JEPA,per-transition,cycle-planning,delta/per-transition,44
+v10_cyc_ramp_frac_5_s0,v10_cyc_ramp_frac_5_s0,8,v10,cyc_ramp_frac_5,0,5,Cycle-JEPA,per-transition,cycle-planning,delta/per-transition,41
+v10_cyc_ramp_frac_5_s0,v10_cyc_ramp_frac_5_s0,8,v10,cyc_ramp_frac_5,0,5,Cycle-JEPA,per-transition,cycle-planning,delta/per-transition,43

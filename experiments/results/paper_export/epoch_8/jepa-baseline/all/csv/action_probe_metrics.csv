@@ -1,0 +1,6 @@
+run,arm,seed,label_frac,cycle_ratio,epoch,num_train_samples,num_test_samples,action_dim,z_t_to_action_ridge_r2,z_t_to_action_mlp_r2,delta_to_action_ridge_r2,delta_to_action_mlp_r2,code_to_action_ridge_r2,code_to_action_mlp_r2,z_t_and_code_to_action_ridge_r2,z_t_and_code_to_action_mlp_r2,code_gain_over_state_ridge,state_headroom_ridge,code_gain_over_state_mlp,state_headroom_mlp
+v3_baseline_100_s0,baseline_100,0,1.0,0.0,8,475612,118904,10,0.2934759194416856,0.6052081464063624,0.709598477837156,0.8472674711718937,,,,,,,,
+v10_base_frac_5_s0,base_frac_5,0,1.0,0.0,8,475612,118904,10,0.096180505420708,0.2552443865991617,0.121164576172854,0.4298828663214212,,,,,,,,
+v10_base_frac_25_s0,base_frac_25,0,1.0,0.0,8,475612,118904,10,0.253939958083986,0.5487937658312863,0.588777551205132,0.7635360009723955,,,,,,,,
+v10_base_frac_50_s0,base_frac_50,0,1.0,0.0,8,475612,118904,10,0.2764081061042459,0.587138203224088,0.6841305312442068,0.8259277417938142,,,,,,,,
+v10_base_frac_75_s0,base_frac_75,0,1.0,0.0,8,475612,118904,10,0.2956684531878756,0.601073655914546,0.7287261239092493,0.8455447141716947,,,,,,,,

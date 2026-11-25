@@ -1,0 +1,5 @@
+run,checkpoint_run,checkpoint_epoch,sweep_tag,arm,train_seed,label_fraction_pct,model_label,supervision,export_category,export_subset
+v13_idm_frac_5_s0,v13_idm_frac_5_s0_retry4,8,v13,idm_frac_5,0,5,IDM-JEPA concat,per-episode,idm-planning,concat/per-episode
+v13_idm_frac_25_s0,v13_idm_frac_25_s0_retry4,8,v13,idm_frac_25,0,25,IDM-JEPA concat,per-episode,idm-planning,concat/per-episode
+v13_idm_frac_50_s0,v13_idm_frac_50_s0_retry4,8,v13,idm_frac_50,0,50,IDM-JEPA concat,per-episode,idm-planning,concat/per-episode
+v13_idm_frac_75_s0,v13_idm_frac_75_s0_retry4,8,v13,idm_frac_75,0,75,IDM-JEPA concat,per-episode,idm-planning,concat/per-episode
