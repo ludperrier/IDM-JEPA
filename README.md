@@ -3,6 +3,8 @@
 **Semi-Supervised Action Inference via Inverse Dynamics in Joint-Embedding Predictive Architectures**
 — *World Models in Physical AI* workshop, NeurIPS 2026.
 
+**[Project page](https://ludperrier.github.io/IDM-JEPA/)** · [Paper](workshop/IDM-JEPA_paper.pdf) · [Poster](workshop/IDM-JEPA_poster.pdf)
+
 JEPA world models usually need an action label for every transition. IDM-JEPA adds an
 Inverse Dynamics Model (IDM) to the LeWorldModel training setup. The IDM infers latent
 action codes from consecutive frame embeddings, and those codes go through the same
@@ -26,6 +28,7 @@ latent-action-jepa/   Training and evaluation code (model, IDM, Hydra configs)
 experiments/          SLURM launchers, analysis/plotting scripts, paper tables
   paper/              LaTeX source of the paper (main.tex, refs.bib, figs/)
   results/            Selected evaluation outputs (CSV summaries, plots, paper export)
+docs/                 Project page (GitHub Pages) and QR codes
 workshop/             Paper and poster PDFs for the NeurIPS workshop
   IDM-JEPA_paper.pdf                 Latest version of the paper
   IDM-JEPA_workshop_submission.pdf   Version submitted to the workshop
