@@ -100,6 +100,8 @@
   figure img { width: 100%; height: auto; display: block; }
   .math-block { margin: 14px 0 20px; overflow-x: auto; overflow-y: hidden; }
   @media (max-width: 700px) { .math-block { font-size: 85%; } }
+  .eq-narrow { display: none; }
+  @media (max-width: 760px) { .eq-wide { display: none; } .eq-narrow { display: block; } }
 
   table { width: 100%; border-collapse: collapse; font-size: 16px; margin: 6px 0 4px; }
   thead th { border-top: 2px solid #333; border-bottom: 1px solid #333; font-weight: 700; padding: 8px 10px; text-align: center; }
@@ -207,7 +209,10 @@
   </div>
 
   <p><b>Training objective.</b> Everything is trained end to end, with no stop-gradient, EMA or target network. The objective adds an action-alignment term to the LeWorldModel loss, applied only where actions are observed:</p>
-  <div class="math-block">
+  <div class="math-block eq-wide">
+  $$\mathcal{L} = \underbrace{\big\|\hat{\mathbf{z}}_{t+1} - \mathbf{z}_{t+1}\big\|^2}_{\mathcal{L}_{\text{pred}}} + \lambda_{\text{sig}}\,\underbrace{\mathrm{SIGReg}(\{\mathbf{z}\})}_{\mathcal{L}_{\text{sig}}} + \lambda_{\text{act}}\,\underbrace{\frac{\sum_k m_t^k\,\big(\hat{a}_t^k - a_t^k\big)^2}{\max\big(1, \sum_k m_t^k\big)}}_{\mathcal{L}_{\text{act}}}$$
+  </div>
+  <div class="math-block eq-narrow">
   $$\mathcal{L} = \mathcal{L}_{\text{pred}} + \lambda_{\text{sig}}\,\mathcal{L}_{\text{sig}} + \lambda_{\text{act}}\,\mathcal{L}_{\text{act}}$$
   $$\begin{aligned}
     \mathcal{L}_{\text{pred}} &= \big\|\hat{\mathbf{z}}_{t+1} - \mathbf{z}_{t+1}\big\|^2 \\
@@ -250,12 +255,12 @@
   <h3 class="sub-title">Rollouts</h3>
   <p class="lead">CEM planning on PushT with an IDM-JEPA (concat) model trained with 75% of transitions labeled. Each clip shows the planning agent, the recorded dataset trajectory and the goal pose.</p>
   <div class="videos">
-    <video src="static/videos/env_10.mp4" autoplay muted loop playsinline></video>
-    <video src="static/videos/env_11.mp4" autoplay muted loop playsinline></video>
-    <video src="static/videos/env_12.mp4" autoplay muted loop playsinline></video>
-    <video src="static/videos/env_13.mp4" autoplay muted loop playsinline></video>
-    <video src="static/videos/env_14.mp4" autoplay muted loop playsinline></video>
-    <video src="static/videos/env_15.mp4" autoplay muted loop playsinline></video>
+    <video autoplay muted loop playsinline preload="auto" poster="static/videos/env_10.jpg"><source src="static/videos/env_10.mp4" type="video/mp4"></video>
+    <video autoplay muted loop playsinline preload="auto" poster="static/videos/env_11.jpg"><source src="static/videos/env_11.mp4" type="video/mp4"></video>
+    <video autoplay muted loop playsinline preload="auto" poster="static/videos/env_12.jpg"><source src="static/videos/env_12.mp4" type="video/mp4"></video>
+    <video autoplay muted loop playsinline preload="auto" poster="static/videos/env_13.jpg"><source src="static/videos/env_13.mp4" type="video/mp4"></video>
+    <video autoplay muted loop playsinline preload="auto" poster="static/videos/env_14.jpg"><source src="static/videos/env_14.mp4" type="video/mp4"></video>
+    <video autoplay muted loop playsinline preload="auto" poster="static/videos/env_15.jpg"><source src="static/videos/env_15.mp4" type="video/mp4"></video>
   </div>
 </section>
 
@@ -279,5 +284,13 @@
   Code released under the MIT License · <a href="https://github.com/ludperrier/IDM-JEPA">github.com/ludperrier/IDM-JEPA</a>
 </footer>
 
+<script>
+  // Start the rollout clips; if the browser blocks autoplay (e.g. Safari Low Power Mode), show controls instead.
+  document.querySelectorAll('.videos video').forEach(function (v) {
+    v.muted = true; v.defaultMuted = true; v.playsInline = true;
+    var p = v.play();
+    if (p && p.catch) p.catch(function () { v.controls = true; });
+  });
+</script>
 </body>
 </html>
