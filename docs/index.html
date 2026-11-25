@@ -96,7 +96,7 @@
   td:first-child, th:first-child { text-align: left; }
   td.best { font-weight: 600; color: var(--accent); }
   .table-wrap { overflow-x: auto; }
-  .videos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 18px; }
+  .videos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 18px; }
   .videos video { width: 100%; border-radius: 8px; background: var(--bg-soft); display: block; }
   pre {
     background: #12161c; color: #e6e9ee; padding: 18px 20px; border-radius: 8px; overflow-x: auto;
@@ -111,7 +111,8 @@
   footer { border-top: 1px solid var(--rule); padding: 28px 0 48px; color: var(--muted); font-size: 13.5px; text-align: center; }
   @media (max-width: 640px) {
     header { padding-top: 48px; }
-    .stats, .videos { grid-template-columns: 1fr 1fr; }
+    .stats { grid-template-columns: 1fr 1fr; }
+    .videos { grid-template-columns: 1fr; }
     .stats .stat:last-child { grid-column: span 2; }
     .authors span + span { margin-left: 0; display: block; }
   }
@@ -210,7 +211,7 @@
 
 <section id="rollouts">
   <h2>Planning rollouts</h2>
-  <p>CEM planning in latent space on PushT, using an IDM-JEPA (concat) model trained with 75% of transitions labeled.</p>
+  <p>CEM planning in latent space on PushT, using an IDM-JEPA (concat) model trained with 75% of transitions labeled. Each clip shows the current state, the planner's progress and the goal.</p>
   <div class="videos">
     <video src="static/videos/env_10.mp4" autoplay muted loop playsinline></video>
     <video src="static/videos/env_11.mp4" autoplay muted loop playsinline></video>
@@ -219,10 +220,6 @@
     <video src="static/videos/env_14.mp4" autoplay muted loop playsinline></video>
     <video src="static/videos/env_15.mp4" autoplay muted loop playsinline></video>
   </div>
-  <figure>
-    <img src="static/rollout.png" alt="Sequence of frames from a successful PushT rollout, from t=1 to the goal configuration.">
-    <figcaption>Per-frame overview of a successful rollout, ending at the goal pose (right).</figcaption>
-  </figure>
 </section>
 
 <section id="bibtex">
