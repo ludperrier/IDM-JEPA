@@ -3,215 +3,246 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>IDM-JEPA: Semi-Supervised Action Inference via Inverse Dynamics in JEPAs</title>
+<title>IDM-JEPA: Semi-Supervised Action Inference via Inverse Dynamics in Joint-Embedding Predictive Architectures</title>
 <meta name="description" content="IDM-JEPA trains JEPA world models on partially action-labeled data by inferring missing actions with an inverse dynamics model. NeurIPS 2026 Workshop on World Models in Physical AI.">
 <meta property="og:title" content="IDM-JEPA: Semi-Supervised Action Inference via Inverse Dynamics in JEPAs">
 <meta property="og:description" content="48.4% PushT planning success from 5% action labels, vs 24.4% for a step-matched baseline.">
 <meta property="og:image" content="https://ludperrier.github.io/IDM-JEPA/static/planning_curves.png">
 <meta property="og:url" content="https://ludperrier.github.io/IDM-JEPA/">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231f3a5f'/><text x='50' y='66' font-size='46' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='700'>IJ</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23363636'/><text x='50' y='66' font-size='46' text-anchor='middle' fill='white' font-family='serif' font-weight='700'>IJ</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/computer-modern/cmu-serif.css">
+<script>
+  window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }, svg: { fontCache: 'global' } };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 <style>
   :root {
-    --ink: #1b1f24;
-    --muted: #5b6470;
-    --accent: #1f3a5f;
-    --accent-2: #c2502e;
-    --rule: #e4e7eb;
-    --bg-soft: #f6f7f9;
-    --max: 880px;
+    --text: #4a4a4a;
+    --heading: #363636;
+    --link: #226999;
+    --soft: #f8f8f8;
+    --faint: #aaaaaa;
+    --mono-ink: #8c8e90;
+    --accent: #d9534f;
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body {
-    margin: 0; color: var(--ink); background: #fff;
-    font-family: "Inter", system-ui, -apple-system, sans-serif;
-    font-size: 17px; line-height: 1.65;
-    -webkit-font-smoothing: antialiased;
+    margin: 0; color: var(--text); background: #fff;
+    font-family: "CMU Serif", Georgia, serif; font-size: 17px; line-height: 1.6;
   }
-  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
-  header { padding: 72px 0 40px; text-align: center; }
-  .venue {
-    display: inline-block; font-size: 13px; font-weight: 600; letter-spacing: .06em;
-    text-transform: uppercase; color: var(--accent-2); margin-bottom: 18px;
+  a { color: var(--link); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .container { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- hero ---------- */
+  .hero { text-align: center; padding: 64px 24px 24px; }
+  .hero h1 {
+    color: var(--heading); font-weight: 700; margin: 0;
+    font-size: clamp(36px, 6vw, 56px); line-height: 1.12;
   }
-  h1 {
-    font-family: "Source Serif 4", Georgia, serif; font-weight: 600;
-    font-size: clamp(30px, 4.6vw, 46px); line-height: 1.15; margin: 0 0 8px;
-    letter-spacing: -0.01em; text-wrap: balance;
+  .hero h2.subtitle {
+    color: var(--heading); font-weight: 700; margin: 10px 0 0;
+    font-size: clamp(24px, 3.6vw, 36px); line-height: 1.2; text-wrap: balance;
   }
-  h1 .name { color: var(--accent); }
-  .subtitle {
-    font-family: "Source Serif 4", Georgia, serif; font-size: clamp(18px, 2.4vw, 23px);
-    color: var(--muted); margin: 0 0 28px; text-wrap: balance;
+  .venue { margin: 22px 0 0; font-size: 18px; font-style: italic; }
+  .authors { margin: 18px 0 0; font-size: 21px; line-height: 1.5; }
+  .authors .author { white-space: nowrap; }
+  .affils { font-size: 19px; line-height: 1.5; margin: 4px 0 0; }
+  .affils span { white-space: nowrap; }
+  .footnote { font-size: 15px; margin-top: 4px; }
+
+  .buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 26px 0 0; }
+  .button {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: "IBM Plex Mono", monospace; font-size: 14px;
+    background: var(--soft); color: var(--mono-ink); border-radius: 8px;
+    padding: 8px 17px; text-decoration: none; transition: background .15s, color .15s;
   }
-  .authors { font-size: 19px; margin: 0 0 6px; }
-  .authors a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--rule); }
-  .authors a:hover { border-color: var(--accent); }
-  .authors sup, .affil sup { font-size: 11px; color: var(--muted); }
-  .authors span + span { margin-left: 28px; }
-  .affil { color: var(--muted); font-size: 15px; margin: 0; }
-  .affil span + span { margin-left: 20px; }
-  .note { color: var(--muted); font-size: 13px; margin-top: 6px; }
-  .links { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 30px; }
-  .btn {
-    display: inline-flex; align-items: center; gap: 8px; padding: 9px 18px; border-radius: 999px;
-    background: var(--ink); color: #fff; text-decoration: none; font-size: 15px; font-weight: 500;
-    transition: background .15s;
+  .button:hover { background: #ececec; color: #555; text-decoration: none; }
+  .button svg { width: 14px; height: 14px; fill: currentColor; }
+
+  /* ---------- teaser card ---------- */
+  .teaser {
+    max-width: 520px; margin: 40px auto 8px; border: 1px solid #d6d6d6; border-radius: 10px;
+    padding: 30px 34px; text-align: center; background: #fff;
   }
-  .btn:hover { background: var(--accent); }
-  .btn svg { width: 17px; height: 17px; fill: currentColor; }
-  section { padding: 36px 0; border-top: 1px solid var(--rule); }
-  h2 {
-    font-family: "Source Serif 4", Georgia, serif; font-weight: 600; font-size: 28px;
-    margin: 0 0 18px; letter-spacing: -0.01em;
+  .teaser .t-title { font-size: 24px; color: #222; }
+  .teaser .t-sub { font-family: "IBM Plex Mono", monospace; font-size: 12px; color: #777; margin-top: 2px; }
+  .teaser ul {
+    list-style: none; padding: 0; margin: 22px 0 0; text-align: left; display: inline-block;
+    font-family: "IBM Plex Mono", monospace; font-size: 13px; color: var(--accent); line-height: 1.75;
   }
-  h3 { font-size: 17px; margin: 28px 0 8px; }
-  p { margin: 0 0 14px; }
-  .tldr {
-    background: var(--bg-soft); border-left: 4px solid var(--accent-2);
-    padding: 18px 22px; border-radius: 6px; font-size: 18px; margin: 0 0 8px;
+
+  /* ---------- sections ---------- */
+  section { padding: 30px 0; }
+  h2.section-title {
+    text-align: center; color: var(--heading); font-weight: 700;
+    font-size: clamp(30px, 4.4vw, 40px); margin: 30px 0 26px;
   }
-  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 26px 0 6px; }
-  .stat { background: var(--bg-soft); border-radius: 10px; padding: 18px; text-align: center; }
-  .stat b {
-    display: block; font-family: "Source Serif 4", Georgia, serif; font-size: 34px;
-    color: var(--accent); line-height: 1.1; font-variant-numeric: tabular-nums;
+  h3.sub-title {
+    text-align: center; color: var(--heading); font-weight: 700;
+    font-size: 26px; margin: 40px 0 14px;
   }
-  .stat span { font-size: 14px; color: var(--muted); }
-  figure { margin: 22px 0; }
-  figure img { width: 100%; height: auto; display: block; border-radius: 6px; }
-  figcaption { font-size: 14.5px; color: var(--muted); margin-top: 10px; line-height: 1.55; }
-  .eq {
-    background: var(--bg-soft); border-radius: 8px; padding: 14px 18px; margin: 14px 0 18px;
-    font-family: "Source Serif 4", Georgia, serif; font-size: 18px; text-align: center; overflow-x: auto;
-  }
-  ul.points { padding-left: 20px; margin: 0 0 14px; }
-  ul.points li { margin-bottom: 8px; }
-  table { width: 100%; border-collapse: collapse; font-size: 15px; font-variant-numeric: tabular-nums; }
-  th, td { padding: 9px 10px; text-align: center; border-bottom: 1px solid var(--rule); }
-  th { font-weight: 600; font-size: 13.5px; color: var(--muted); border-bottom: 2px solid var(--ink); }
+  p { margin: 0 0 16px; text-align: justify; hyphens: auto; }
+  p.lead { text-align: center; color: #666; }
+  .caption { font-size: 15px; color: #666; text-align: justify; margin-top: 10px; }
+
+  .abstract-box { background: var(--soft); border-radius: 8px; padding: 32px 40px; }
+  .abstract-box h2.section-title { margin-top: 0; }
+  .tldr { font-size: 14.5px; color: var(--faint); margin: 26px 0 0; text-align: justify; }
+  .tldr b { color: var(--heading); }
+
+  figure { margin: 20px 0; }
+  figure img { width: 100%; height: auto; display: block; }
+  .math-block { margin: 14px 0 20px; overflow-x: auto; overflow-y: hidden; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 16px; margin: 6px 0 4px; }
+  thead th { border-top: 2px solid #333; border-bottom: 1px solid #333; font-weight: 700; padding: 8px 10px; text-align: center; }
+  tbody td { padding: 6px 10px; text-align: center; }
+  tbody tr:last-child td { border-bottom: 2px solid #333; }
   td:first-child, th:first-child { text-align: left; }
-  td.best { font-weight: 600; color: var(--accent); }
+  td.best { font-weight: 700; }
   .table-wrap { overflow-x: auto; }
-  .videos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 18px; }
-  .videos video { width: 100%; border-radius: 8px; background: var(--bg-soft); display: block; }
-  pre {
-    background: #12161c; color: #e6e9ee; padding: 18px 20px; border-radius: 8px; overflow-x: auto;
-    font-size: 13.5px; line-height: 1.55; position: relative;
+
+  .videos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 10px; }
+  .videos video { width: 100%; display: block; border-radius: 6px; }
+
+  .bibtex { position: relative; }
+  .bibtex pre {
+    background: var(--soft); border-radius: 8px; padding: 20px 22px; overflow-x: auto;
+    font-family: "IBM Plex Mono", monospace; font-size: 13px; line-height: 1.6; color: #333; margin: 0;
   }
   .copy {
-    position: absolute; top: 10px; right: 10px; background: #2a3039; color: #e6e9ee; border: 0;
-    border-radius: 6px; padding: 4px 10px; font: 500 12px "Inter", sans-serif; cursor: pointer;
+    position: absolute; top: 10px; right: 10px; border: 0; cursor: pointer;
+    font: 13px "IBM Plex Mono", monospace; color: var(--mono-ink); background: #ececec;
+    border-radius: 6px; padding: 4px 10px;
   }
-  .copy:hover { background: #3a424e; }
-  a { color: var(--accent); }
-  footer { border-top: 1px solid var(--rule); padding: 28px 0 48px; color: var(--muted); font-size: 13.5px; text-align: center; }
+  .copy:hover { color: #555; }
+
+  footer { text-align: center; font-size: 14px; color: var(--faint); padding: 40px 24px 56px; }
+  footer a { color: var(--mono-ink); }
+
   @media (max-width: 640px) {
-    header { padding-top: 48px; }
-    .stats { grid-template-columns: 1fr 1fr; }
+    body { font-size: 16px; }
+    .abstract-box { padding: 24px 20px; }
+    .teaser { padding: 24px 18px; }
     .videos { grid-template-columns: 1fr; }
-    .stats .stat:last-child { grid-column: span 2; }
-    .authors span + span { margin-left: 0; display: block; }
+    p { text-align: left; }
   }
 </style>
 </head>
 <body>
 
-<header class="wrap">
-  <div class="venue">NeurIPS 2026 Workshop &middot; World Models in Physical AI</div>
-  <h1><span class="name">IDM-JEPA</span></h1>
-  <p class="subtitle">Semi-Supervised Action Inference via Inverse Dynamics in Joint-Embedding Predictive Architectures</p>
-  <p class="authors">
-    <span>Ludovic Perrier<sup>1,2,*</sup></span>
-    <span>Gaétan Marceau Caron<sup>1</sup></span>
-  </p>
-  <p class="affil">
-    <span><sup>1</sup>Mila – Quebec AI Institute</span>
+<header class="hero">
+  <h1>IDM-JEPA:</h1>
+  <h2 class="subtitle">Semi-Supervised Action Inference via Inverse Dynamics in Joint-Embedding Predictive Architectures</h2>
+
+  <div class="authors">
+    <span class="author">Ludovic Perrier<sup>1,2,*</sup></span>,&nbsp;
+    <span class="author">Gaétan Marceau Caron<sup>1</sup></span>
+  </div>
+  <div class="affils">
+    <span><sup>1</sup>Mila – Quebec AI Institute</span>&nbsp;
     <span><sup>2</sup>Collège Jean-de-Brébeuf</span>
-  </p>
-  <p class="note">* Work done while at Mila – Quebec AI Institute.</p>
-  <nav class="links">
-    <a class="btn" href="static/IDM-JEPA_paper.pdf">
-      <svg viewBox="0 0 24 24"><path d="M6 2h9l5 5v15H6V2zm8 1.5V8h4.5L14 3.5zM8 12h10v1.5H8V12zm0 3.5h10V17H8v-1.5zm0 3.5h7v1.5H8V19z"/></svg>Paper</a>
-    <a class="btn" href="https://github.com/ludperrier/IDM-JEPA">
+  </div>
+  <div class="footnote"><sup>*</sup>Work done while at Mila – Quebec AI Institute</div>
+  <div class="venue">NeurIPS 2026 Workshop on World Models in Physical AI</div>
+
+  <nav class="buttons">
+    <a class="button" href="static/IDM-JEPA_paper.pdf">
+      <svg viewBox="0 0 384 512"><path d="M224 136V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H248c-13.2 0-24-10.8-24-24zm160-14.1v6.1H256V0h6.1c6.4 0 12.5 2.5 17 7l97.9 98c4.5 4.5 7 10.6 7 16.9z"/></svg>Paper</a>
+    <a class="button" href="https://github.com/ludperrier/IDM-JEPA">
       <svg viewBox="0 0 24 24"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.1c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.7 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg>Code</a>
-    <a class="btn" href="static/IDM-JEPA_poster.pdf">
-      <svg viewBox="0 0 24 24"><path d="M3 3h18v14H3V3zm2 2v10h14V5H5zm2 2h6v2H7V7zm0 3h10v1.5H7V10zm0 2.5h8V14H7v-1.5zM11 18h2v3h-2v-3z"/></svg>Poster</a>
-    <a class="btn" href="#bibtex">
+    <a class="button" href="static/IDM-JEPA_poster.pdf">
+      <svg viewBox="0 0 24 24"><path d="M3 3h18v14H3V3zm2 2v10h14V5H5zm6 13h2v3h-2v-3z"/></svg>Poster</a>
+    <a class="button" href="#bibtex">
       <svg viewBox="0 0 24 24"><path d="M7 7h4v4H8.5c0 1.7.8 2.7 2.5 3v2c-3-.3-4-2.4-4-5V7zm7 0h4v4h-2.5c0 1.7.8 2.7 2.5 3v2c-3-.3-4-2.4-4-5V7z"/></svg>BibTeX</a>
   </nav>
+
+  <div class="teaser">
+    <div class="t-title">IDM-JEPA</div>
+    <div class="t-sub">JEPA world models from partially action-labeled data</div>
+    <ul>
+      <li>[Inverse dynamics model infers missing actions]</li>
+      <li>[Real and inferred actions share one encoder]</li>
+      <li>[Trains on every transition, labeled or not]</li>
+      <li>[Planner unchanged: searches real actions]</li>
+      <li>[48.4% PushT success from 5% labels]</li>
+    </ul>
+  </div>
 </header>
 
-<main class="wrap">
+<main class="container">
 
 <section>
-  <p class="tldr"><strong>TL;DR</strong> &nbsp;JEPA world models normally need an action label on every frame. IDM-JEPA infers the missing actions with an inverse dynamics model, so the world model can train on <em>every</em> transition even when most are unlabeled.</p>
-  <div class="stats">
-    <div class="stat"><b>48.4%</b><span>PushT planning success with only 5% action labels</span></div>
-    <div class="stat"><b>2&times;</b><span>the step-matched baseline at 5% labels (24.4%)</span></div>
-    <div class="stat"><b>93.6%</b><span>planning success with full labels</span></div>
+  <div class="abstract-box">
+    <h2 class="section-title">Abstract</h2>
+    <p>Joint Embedding Predictive Architectures (JEPAs) offer a compelling framework for learning world models directly in compact representation spaces. However, existing methods remain dependent on dense, frame-by-frame action supervision, forcing them to discard unlabeled transitions and reducing their ability to leverage action-sparse or passive video datasets.</p>
+    <p>We introduce IDM-JEPA, a semi-supervised framework that enables stable end-to-end JEPA training on partially labeled data by inferring missing control signals via an Inverse Dynamics Model. By routing inferred latent action codes through the same encoder as ground-truth actions, pseudo-actions and real actions become interchangeable during training and downstream Model Predictive Control (MPC), at no cost to the planner, which searches over recorded actions throughout.</p>
+    <p style="margin-bottom:0">On the continuous PushT benchmark, IDM-JEPA reaches 48.4% planning success from 5% action supervision, against 24.4% for an action-conditioned baseline trained on the labeled fraction alone under a matched budget of gradient steps. The advantage is confined to the extreme-scarcity regime: at an equal step budget the baseline reaches 72.4% at 25% supervision and approaches full-data performance by 50%. Enforcing action-sensitivity through cycle-consistency on imagined transitions does not substitute for grounding codes in recorded ones. Inferred actions substitute for labels only where the unlabeled pool adds state coverage.</p>
   </div>
+  <p class="tldr"><b>TL;DR:</b> IDM-JEPA adds an inverse dynamics model to a JEPA world model so it can train on unlabeled transitions. It doubles PushT planning success when only 5% of actions are labeled, and its benefit fades as labels become plentiful.</p>
 </section>
 
-<section id="abstract">
-  <h2>Abstract</h2>
-  <p>Joint Embedding Predictive Architectures (JEPAs) offer a compelling framework for learning world models directly in compact representation spaces. However, existing methods remain dependent on dense, frame-by-frame action supervision, forcing them to discard unlabeled transitions and reducing their ability to leverage action-sparse or passive video datasets.</p>
-  <p>We introduce <strong>IDM-JEPA</strong>, a semi-supervised framework that enables stable end-to-end JEPA training on partially labeled data by inferring missing control signals via an Inverse Dynamics Model. By routing inferred latent action codes through the same encoder as ground-truth actions, pseudo-actions and real actions become interchangeable during training and downstream Model Predictive Control (MPC), at no cost to the planner, which searches over recorded actions throughout.</p>
-  <p>On the continuous PushT benchmark, IDM-JEPA reaches 48.4% planning success from 5% action supervision, against 24.4% for an action-conditioned baseline trained on the labeled fraction alone under a matched budget of gradient steps. The advantage is confined to the extreme-scarcity regime: at an equal step budget the baseline reaches 72.4% at 25% supervision and approaches full-data performance by 50%. Enforcing action-sensitivity through cycle-consistency on imagined transitions does not substitute for grounding codes in recorded ones. Inferred actions substitute for labels only where the unlabeled pool adds state coverage.</p>
-</section>
-
-<section id="method">
-  <h2>Method</h2>
+<section id="approach">
+  <h2 class="section-title">Approach</h2>
   <figure>
     <img src="static/architecture.png" alt="IDM-JEPA architecture diagram: a shared encoder maps two consecutive frames to latents; an inverse model predicts an action code from them; a select step uses the recorded action when available, otherwise the inferred code; an action encoder and predictor forecast the next latent.">
-    <figcaption><strong>IDM-JEPA architecture.</strong> A shared encoder maps o<sub>t</sub> and o<sub>t+1</sub> to latents regularized by SIGReg. The inverse model predicts â<sub>t</sub> from their composition and is supervised by a<sub>t</sub> when available. The action encoder receives either â<sub>t</sub> or a<sub>t</sub>, and the forward model predicts the next latent from the current latent and action embedding.</figcaption>
+    <div class="caption"><b>IDM-JEPA architecture.</b> A shared encoder maps $\mathbf{o}_t$ and $\mathbf{o}_{t+1}$ to latents regularized by SIGReg. The inverse model predicts $\hat{\mathbf{a}}_t$ from their composition and is supervised by $\mathbf{a}_t$ when available. The action encoder receives either $\hat{\mathbf{a}}_t$ or $\mathbf{a}_t$, and the forward model predicts the next latent from the current latent and action embedding.</div>
   </figure>
-  <p>IDM-JEPA builds on <a href="https://arxiv.org/abs/2603.19312">LeWorldModel</a>. Its one addition is an inverse dynamics model g<sub>&psi;</sub> that reads two consecutive latents and outputs an action code in the same space as the recorded actions. Whenever a transition is labeled, the recorded action is used; otherwise, the inferred code takes its place. Everything is trained end to end with a single objective:</p>
-  <div class="eq">&#8466; = &#8466;<sub>pred</sub> + &lambda;<sub>sig</sub> &#8466;<sub>sig</sub> + &lambda;<sub>act</sub> &#8466;<sub>act</sub></div>
-  <ul class="points">
-    <li><strong>&#8466;<sub>pred</sub></strong>: next-latent prediction error, using recorded or inferred actions.</li>
-    <li><strong>&#8466;<sub>sig</sub></strong>: SIGReg anti-collapse regularizer on the encoder (no stop-gradient, no target network).</li>
-    <li><strong>&#8466;<sub>act</sub></strong>: action-alignment error between inferred and recorded actions, only on labeled transitions.</li>
-  </ul>
-  <p>Because inferred and recorded actions share the same action encoder, the planner is unchanged: at test time, CEM-based MPC searches over real action sequences exactly as in the fully supervised model.</p>
+
+  <p><b>Model architecture.</b> IDM-JEPA builds on <a href="https://le-wm.github.io">LeWorldModel</a>. An encoder maps each frame $\mathbf{o}_t$ to a latent $\mathbf{z}_t$, and a predictor forecasts the next latent from the current one and an action. The one addition is an inverse dynamics model $g_\psi$ that reads two consecutive latents and outputs an action code in the same space as recorded actions. When a transition is labeled, the recorded action is used; otherwise the inferred code takes its place:</p>
+  <div class="math-block">
+  $$\text{IDM-JEPA}\begin{cases}
+    \text{Encoder:} & \mathbf{z}_t = \mathrm{Enc}(\mathbf{o}_t)\\
+    \text{Inverse model:} & \hat{\mathbf{a}}_t = g_\psi(\mathbf{z}_t, \mathbf{z}_{t+1})\\
+    \text{Predictor:} & \hat{\mathbf{z}}_{t+1} = \mathrm{Pred}\big(\mathbf{z}_t,\, h_\omega(\tilde{\mathbf{a}}_t)\big)
+  \end{cases}
+  \qquad \tilde{\mathbf{a}}_t = \begin{cases}\mathbf{a}_t & \text{if labeled}\\ \hat{\mathbf{a}}_t & \text{otherwise}\end{cases}$$
+  </div>
+
+  <p><b>Training objective.</b> Everything is trained end to end, with no stop-gradient, EMA or target network. The objective adds an action-alignment term to the LeWorldModel loss, applied only where actions are observed:</p>
+  <div class="math-block">
+  $$\mathcal{L} = \underbrace{\big\|\hat{\mathbf{z}}_{t+1} - \mathbf{z}_{t+1}\big\|^2}_{\mathcal{L}_{\text{pred}}} + \lambda_{\text{sig}}\,\underbrace{\mathrm{SIGReg}(\{\mathbf{z}\})}_{\mathcal{L}_{\text{sig}}} + \lambda_{\text{act}}\,\underbrace{\frac{\sum_k m_t^k\,\big(\hat{a}_t^k - a_t^k\big)^2}{\max\big(1, \sum_k m_t^k\big)}}_{\mathcal{L}_{\text{act}}}$$
+  </div>
+  <p>$\mathcal{L}_{\text{pred}}$ trains the encoder, predictor and inverse model through the next-latent error; $\mathcal{L}_{\text{sig}}$ prevents representation collapse; $\mathcal{L}_{\text{act}}$ grounds inferred codes in recorded actions using the label mask $m_t$. At $\rho = 1$ this reduces to the action-conditioned baseline; at $\rho = 0$ the action code is ungrounded.</p>
+
+  <p><b>Planning.</b> Because inferred and recorded actions share the same action encoder $h_\omega$, the planner is unchanged: CEM-based MPC searches over real action sequences in latent space, exactly as for a fully supervised model.</p>
 </section>
 
 <section id="results">
-  <h2>Results</h2>
+  <h2 class="section-title">Planning with IDM-JEPA</h2>
+
+  <h3 class="sub-title">Planning Under Label Scarcity</h3>
+  <p class="lead">PushT planning success as the fraction of labeled transitions shrinks.</p>
   <figure>
     <img src="static/planning_curves.png" alt="Two line plots of PushT planning success versus percentage of labeled data, for per-transition and per-episode supervision. IDM-JEPA (concat) and IDM-JEPA (delta) are highest at low label fractions.">
-    <figcaption><strong>Planning success on PushT vs. labeled fraction</strong>, with labels masked per transition (left) or per episode (right). The baseline is shown both epoch-matched and step-matched; only the step-matched one gets the same compute as IDM-JEPA. Mean &plusmn; s.e.m. over five evaluation seeds.</figcaption>
+    <div class="caption"><b>Planning curves.</b> Planning success on PushT vs. labeled fraction, with labels masked per transition (left) or per episode (right). The baseline is shown both epoch-matched and step-matched; only the step-matched one gets the same compute as IDM-JEPA. Mean ± s.e.m. over five evaluation seeds.</div>
   </figure>
 
-  <h3>Planning success (%) on PushT, per-transition masking</h3>
+  <h3 class="sub-title">Planning Results</h3>
   <div class="table-wrap">
   <table>
-    <thead><tr><th>Labeled fraction &rho;</th><th>Baseline, epoch 8</th><th>Baseline, matched steps</th><th>IDM-JEPA (concat)</th></tr></thead>
+    <thead><tr><th>$\rho$</th><th>Baseline, epoch 8</th><th>Baseline, matched steps</th><th>$\Delta$</th><th>IDM-JEPA (concat)</th></tr></thead>
     <tbody>
-      <tr><td>5%</td><td>8.0 &plusmn; 0.9</td><td>24.4 &plusmn; 3.8</td><td class="best">48.4 &plusmn; 2.9</td></tr>
-      <tr><td>25%</td><td>36.4 &plusmn; 3.8</td><td>72.4 &plusmn; 2.3</td><td class="best">79.2 &plusmn; 3.3</td></tr>
-      <tr><td>50%</td><td>65.2 &plusmn; 3.6</td><td>80.8 &plusmn; 2.3</td><td class="best">87.6 &plusmn; 1.7</td></tr>
-      <tr><td>75%</td><td>82.4 &plusmn; 1.9</td><td>82.4 &plusmn; 1.3</td><td class="best">85.2 &plusmn; 2.6</td></tr>
-      <tr><td>100%</td><td colspan="2">88.0 &plusmn; 2.8</td><td class="best">93.6 &plusmn; 3.7</td></tr>
+      <tr><td>0.05</td><td>8.0 ± 0.9</td><td>24.4 ± 3.8</td><td>+16.4</td><td class="best">48.4 ± 2.9</td></tr>
+      <tr><td>0.25</td><td>36.4 ± 3.8</td><td>72.4 ± 2.3</td><td>+36.0</td><td class="best">79.2 ± 3.3</td></tr>
+      <tr><td>0.50</td><td>65.2 ± 3.6</td><td>80.8 ± 2.3</td><td>+15.6</td><td class="best">87.6 ± 1.7</td></tr>
+      <tr><td>0.75</td><td>82.4 ± 1.9</td><td>82.4 ± 1.3</td><td>0.0</td><td class="best">85.2 ± 2.6</td></tr>
+      <tr><td>1.00</td><td colspan="2">88.0 ± 2.8</td><td>—</td><td class="best">93.6 ± 3.7</td></tr>
     </tbody>
   </table>
   </div>
-  <p style="margin-top:14px">Mean &plusmn; s.e.m. over five evaluation seeds (250 episodes per cell). The largest gain is at 5% labels, where unlabeled transitions add the most state coverage. At 25% and above, the step-matched baseline catches up quickly, because PushT's unlabeled expert demonstrations largely repeat what the labeled ones already show.</p>
+  <div class="caption">Planning success (%) on PushT, per-transition masking. $\Delta$ is the correction from epoch-matching to step-matching the baseline. Mean ± s.e.m. over five evaluation seeds ($n = 250$).</div>
 
-  <h3>Key takeaways</h3>
-  <ul class="points">
-    <li><strong>Inferred actions help most when labels are scarce:</strong> doubling planning success at 5% supervision.</li>
-    <li><strong>Compute matching matters:</strong> giving the baseline the same number of gradient steps raises it by up to 36 points, so fair comparisons need it.</li>
-    <li><strong>Cycle-consistency is not a substitute:</strong> enforcing action-sensitivity on imagined transitions (Cycle-JEPA) does not match grounding codes in recorded transitions.</li>
-  </ul>
-</section>
+  <p style="margin-top:20px">The largest gain is at 5% labels, where unlabeled transitions add the most state coverage. At an equal step budget, the baseline catches up quickly from 25% upward, because PushT's unlabeled expert demonstrations largely repeat what the labeled ones already show. Enforcing action-sensitivity through cycle-consistency on imagined transitions (Cycle-JEPA) does not match grounding codes in recorded transitions.</p>
 
-<section id="rollouts">
-  <h2>Planning rollouts</h2>
-  <p>CEM planning in latent space on PushT, using an IDM-JEPA (concat) model trained with 75% of transitions labeled. Each clip shows the planning agent, the recorded dataset trajectory and the goal pose side by side.</p>
+  <h3 class="sub-title">Rollouts</h3>
+  <p class="lead">CEM planning on PushT with an IDM-JEPA (concat) model trained with 75% of transitions labeled. Each clip shows the planning agent, the recorded dataset trajectory and the goal pose.</p>
   <div class="videos">
     <video src="static/videos/env_10.mp4" autoplay muted loop playsinline></video>
     <video src="static/videos/env_11.mp4" autoplay muted loop playsinline></video>
@@ -223,20 +254,23 @@
 </section>
 
 <section id="bibtex">
-  <h2>BibTeX</h2>
-<pre><button class="copy" onclick="navigator.clipboard.writeText(document.getElementById('bib').innerText);this.textContent='Copied';setTimeout(()=>this.textContent='Copy',1500)">Copy</button><code id="bib">@inproceedings{perrier2026idmjepa,
+  <h2 class="section-title">Citation (BibTeX)</h2>
+  <div class="bibtex">
+    <button class="copy" onclick="navigator.clipboard.writeText(document.getElementById('bib').innerText);this.textContent='Copied';setTimeout(()=>this.textContent='Copy',1500)">Copy</button>
+<pre><code id="bib">@inproceedings{perrier2026idmjepa,
   title     = {{IDM-JEPA}: Semi-Supervised Action Inference via Inverse Dynamics
                in Joint-Embedding Predictive Architectures},
   author    = {Perrier, Ludovic and Marceau Caron, Ga{\'e}tan},
   booktitle = {NeurIPS 2026 Workshop on World Models in Physical AI},
   year      = {2026}
 }</code></pre>
+  </div>
 </section>
 
 </main>
 
-<footer class="wrap">
-  Code released under the MIT License &middot; <a href="https://github.com/ludperrier/IDM-JEPA">github.com/ludperrier/IDM-JEPA</a>
+<footer>
+  Code released under the MIT License · <a href="https://github.com/ludperrier/IDM-JEPA">github.com/ludperrier/IDM-JEPA</a>
 </footer>
 
 </body>
