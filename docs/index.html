@@ -99,6 +99,7 @@
   figure { margin: 20px 0; }
   figure img { width: 100%; height: auto; display: block; }
   .math-block { margin: 14px 0 20px; overflow-x: auto; overflow-y: hidden; }
+  @media (max-width: 700px) { .math-block { font-size: 85%; } }
 
   table { width: 100%; border-collapse: collapse; font-size: 16px; margin: 6px 0 4px; }
   thead th { border-top: 2px solid #333; border-bottom: 1px solid #333; font-weight: 700; padding: 8px 10px; text-align: center; }
@@ -201,13 +202,14 @@
     \text{Encoder:} & \mathbf{z}_t = \mathrm{Enc}(\mathbf{o}_t)\\
     \text{Inverse model:} & \hat{\mathbf{a}}_t = g_\psi(\mathbf{z}_t, \mathbf{z}_{t+1})\\
     \text{Predictor:} & \hat{\mathbf{z}}_{t+1} = \mathrm{Pred}\big(\mathbf{z}_t,\, h_\omega(\tilde{\mathbf{a}}_t)\big)
-  \end{cases}
-  \qquad \tilde{\mathbf{a}}_t = \begin{cases}\mathbf{a}_t & \text{if labeled}\\ \hat{\mathbf{a}}_t & \text{otherwise}\end{cases}$$
+  \end{cases}$$
+  $$\tilde{\mathbf{a}}_t = \begin{cases}\mathbf{a}_t & \text{if the transition is labeled}\\ \hat{\mathbf{a}}_t & \text{otherwise}\end{cases}$$
   </div>
 
   <p><b>Training objective.</b> Everything is trained end to end, with no stop-gradient, EMA or target network. The objective adds an action-alignment term to the LeWorldModel loss, applied only where actions are observed:</p>
   <div class="math-block">
-  $$\mathcal{L} = \underbrace{\big\|\hat{\mathbf{z}}_{t+1} - \mathbf{z}_{t+1}\big\|^2}_{\mathcal{L}_{\text{pred}}} + \lambda_{\text{sig}}\,\underbrace{\mathrm{SIGReg}(\{\mathbf{z}\})}_{\mathcal{L}_{\text{sig}}} + \lambda_{\text{act}}\,\underbrace{\frac{\sum_k m_t^k\,\big(\hat{a}_t^k - a_t^k\big)^2}{\max\big(1, \sum_k m_t^k\big)}}_{\mathcal{L}_{\text{act}}}$$
+  $$\mathcal{L} = \mathcal{L}_{\text{pred}} + \lambda_{\text{sig}}\,\mathcal{L}_{\text{sig}} + \lambda_{\text{act}}\,\mathcal{L}_{\text{act}}$$
+  $$\mathcal{L}_{\text{pred}} = \big\|\hat{\mathbf{z}}_{t+1} - \mathbf{z}_{t+1}\big\|^2, \qquad \mathcal{L}_{\text{sig}} = \mathrm{SIGReg}(\{\mathbf{z}\}), \qquad \mathcal{L}_{\text{act}} = \frac{\sum_k m_t^k\,\big(\hat{a}_t^k - a_t^k\big)^2}{\max\big(1, \sum_k m_t^k\big)}$$
   </div>
   <p>$\mathcal{L}_{\text{pred}}$ trains the encoder, predictor and inverse model through the next-latent error; $\mathcal{L}_{\text{sig}}$ prevents representation collapse; $\mathcal{L}_{\text{act}}$ grounds inferred codes in recorded actions using the label mask $m_t$. At $\rho = 1$ this reduces to the action-conditioned baseline; at $\rho = 0$ the action code is ungrounded.</p>
 
