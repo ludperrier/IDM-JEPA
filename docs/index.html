@@ -209,7 +209,11 @@
   <p><b>Training objective.</b> Everything is trained end to end, with no stop-gradient, EMA or target network. The objective adds an action-alignment term to the LeWorldModel loss, applied only where actions are observed:</p>
   <div class="math-block">
   $$\mathcal{L} = \mathcal{L}_{\text{pred}} + \lambda_{\text{sig}}\,\mathcal{L}_{\text{sig}} + \lambda_{\text{act}}\,\mathcal{L}_{\text{act}}$$
-  $$\mathcal{L}_{\text{pred}} = \big\|\hat{\mathbf{z}}_{t+1} - \mathbf{z}_{t+1}\big\|^2, \qquad \mathcal{L}_{\text{sig}} = \mathrm{SIGReg}(\{\mathbf{z}\}), \qquad \mathcal{L}_{\text{act}} = \frac{\sum_k m_t^k\,\big(\hat{a}_t^k - a_t^k\big)^2}{\max\big(1, \sum_k m_t^k\big)}$$
+  $$\begin{aligned}
+    \mathcal{L}_{\text{pred}} &= \big\|\hat{\mathbf{z}}_{t+1} - \mathbf{z}_{t+1}\big\|^2 \\
+    \mathcal{L}_{\text{sig}} &= \mathrm{SIGReg}(\{\mathbf{z}\}) \\
+    \mathcal{L}_{\text{act}} &= \frac{\sum_k m_t^k\,\big(\hat{a}_t^k - a_t^k\big)^2}{\max\big(1, \sum_k m_t^k\big)}
+  \end{aligned}$$
   </div>
   <p>$\mathcal{L}_{\text{pred}}$ trains the encoder, predictor and inverse model through the next-latent error; $\mathcal{L}_{\text{sig}}$ prevents representation collapse; $\mathcal{L}_{\text{act}}$ grounds inferred codes in recorded actions using the label mask $m_t$. At $\rho = 1$ this reduces to the action-conditioned baseline; at $\rho = 0$ the action code is ungrounded.</p>
 
