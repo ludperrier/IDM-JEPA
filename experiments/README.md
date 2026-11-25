@@ -18,7 +18,6 @@ analysis_out/                                 -> all evaluation outputs (git-ign
                                                   few curated top-level CSV/PNG summaries)
 analysis_out/slurm_logs/                      -> stdout/stderr from evaluation/plotting sbatch jobs
 logs/                                         -> stdout/stderr from training sbatch jobs (git-ignored)
-legacy/                                       -> superseded one-off scripts, kept for reference only
 ```
 
 ## Sweep-tag conventions
@@ -109,22 +108,8 @@ it evaluates every tag together and builds the full export bundle under
 - `submit_paper_epoch8_evaluations.sh` and `refresh_paper_epoch8_export.sh`:
   add the tag to their hardcoded tag lists.
 
-## `legacy/`
-
-One-off or fully superseded scripts, kept only for reference (not part of
-any current pipeline, not referenced by any other script):
-
-- `2train.sh` — early hardcoded prototype, superseded by `train.sh` + `sweep.py`.
-- `evaluate_next_state_epoch3.sh` — one-off epoch-3 eval, superseded by the
-  generic `evaluate_next_state.sh` (`EVAL_EPOCH` env var).
-- `evaluate_v10_frac_25_epoch5_planning.sh`,
-  `evaluate_v10_base_episode_frac_planning.sh` — one-off hardcoded epoch-5
-  planning evals, superseded by the manifest-driven
-  `evaluate_paper_epoch8_planning.sh` / per-tag `evaluate_v<N>_epoch8_planning.sh`.
-
-`evaluate_planning.sh` is *not* legacy — it's a simpler, still-usable
-`SWEEP_TAG`+array-index-driven planning eval (an alternative to the
-manifest-driven `evaluate_paper_epoch8_planning.sh`).
+`evaluate_planning.sh` is a simpler `SWEEP_TAG`+array-index-driven planning eval
+(an alternative to the manifest-driven `evaluate_paper_epoch8_planning.sh`).
 
 ## Checking on jobs
 

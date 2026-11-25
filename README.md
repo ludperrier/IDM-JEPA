@@ -26,8 +26,10 @@ latent-action-jepa/   Training and evaluation code (model, IDM, Hydra configs)
 experiments/          SLURM launchers, analysis/plotting scripts, paper tables
   paper/              LaTeX source of the paper (main.tex, refs.bib, figs/)
   results/            Selected evaluation outputs (CSV summaries, plots, paper export)
-  legacy/             Superseded one-off scripts, kept for reference
-workshop/             Paper PDFs and posters for the NeurIPS workshop
+workshop/             Paper and poster PDFs for the NeurIPS workshop
+  IDM-JEPA_paper.pdf                 Latest version of the paper
+  IDM-JEPA_workshop_submission.pdf   Version submitted to the workshop
+  IDM-JEPA_poster.pdf                Workshop poster
 ```
 
 The README in each subfolder has more detail:
@@ -60,3 +62,7 @@ python eval.py --config-name pusht policy=<run>/weights_epoch_<epoch>.pt
   repository.
 - Model weights and raw per-checkpoint artifacts (latent embeddings `.npz`, SLURM logs,
   t-SNE/PCA dumps) are not included because of their size.
+
+## License
+
+MIT. See [LICENSE](LICENSE).
